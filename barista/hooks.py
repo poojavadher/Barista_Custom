@@ -126,7 +126,7 @@ fixtures = [
     {"dt": "Workspace", "filters": [
     [
         "name", "in", [
-        "Barista"
+        "Barista-Administrator"
     ]
     ]
     ]},
