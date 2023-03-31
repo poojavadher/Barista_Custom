@@ -123,6 +123,13 @@ fixtures = [
     "Test Data",
     "Test Case",
     "Test Suite",
+    {"dt": "Workspace", "filters": [
+    [
+        "name", "in", [
+        "Barista"
+    ]
+    ]
+    ]},
     # "Testcase Item",
     # "Testdata Item",
     # "Assertion",
