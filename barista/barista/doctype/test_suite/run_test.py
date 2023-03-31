@@ -3,6 +3,9 @@
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
+
+import smtplib
+
 import frappe
 from frappe.model.document import Document
 from barista.barista.doctype.test_data.test_data_generator import TestDataGenerator
@@ -21,14 +24,16 @@ from coverage.numbits import register_sqlite_functions
 
 error_log_title_len = 1000
 
-
 class RunTest():
     # Run all the suites for the given app
     def run_complete_suite(self, app_name, suites=[], run_name=None):
         start_time = time.time()
         alter_error_log()
+        site_name = str(frappe.local.site)
+        email_body = " "
         print("\033[0;33;93m************ Running all test cases for App - " +
               app_name + " *************\n\n")
+        email_body1 = "<div>************ Running test cases for App - " + app_name + " *************</div>"
         if len(suites) == 0:
             suites = frappe.get_all("Test Suite", filters={
                 'app_name': app_name}, order_by='creation asc')
@@ -55,15 +60,19 @@ class RunTest():
             suite_srno += 1
             print("\033[0;32;92m************ Suite - " +
                   suite.get('name') + " *************\n\n")
+            email_body1 += "<div>************ Suite - " + suite.get('name') + " *************</div>"
             try:
                 generatorObj.create_pretest_data(suite.get('name'), run_name)
-                testcases = frappe.get_list('Testcase Item', filters={
-                    'parent': suite.get('name')}, fields=["testcase"], order_by="idx")
+                # testcases = frappe.get_list('Testcase Item', filters={
+                #     'parent': suite.get('name')}, fields=["testcase"], order_by="idx")
+
+                values = {'parent': suite.get('name')}
+                testcases = frappe.db.sql("select testcase from `tabTestcase Item` where parent = %(parent)s ORDER BY `idx`", values=values, as_dict=1)
                 total_testcases = len(testcases)
                 testcase_srno = 0
                 for testcase in testcases:
                     testcase_srno += 1
-                    self.run_testcase(
+                    email_body += self.run_testcase(
                         testcase, suite, testcase_srno, total_testcases, suite_srno, total_suites, run_name)
 
             except Exception as e:
@@ -75,6 +84,14 @@ class RunTest():
                 print(
                     "\033[0;31;91m The error encountered is - " + str(e) + "\n")
                 print("\033[0;31;91m*************ERROR****************")
+                msg = """<div> Error occurred which will cause false test case result in the suite -""" + str(suite.get('name')) + """</div><div> *************ERROR****************</div><div> The error encountered is -""" + str(e) + """</div>"""
+                frappe.sendmail(
+                    recipients="pooja@sanskartechnolab.com",
+                    subject=frappe._('Test Run Log'),
+                    message=msg
+                )
+                frappe.db.set_value("Test Suite", suite, "logs", msg)
+                frappe.db.commit()
 
         objCoverage.stop()
         objCoverage.save()
@@ -92,12 +109,24 @@ class RunTest():
             end_time = round(end_time/60, 2)
             time_uom = 'minutes'
         print("--- Executed in %s %s ---" % (end_time, time_uom))
+        emailmsg = email_body1 + email_body + "<div>************ Execution ends. Verify coverage at - /assets/barista/test-coverage/" + run_name_path + " /index.html</div>" + "<div>---  Executed in " + str(end_time) + str(time_uom) + " ---</div>"
+        print(emailmsg)
+        frappe.sendmail(
+            recipients="pooja@sanskartechnolab.com",
+            subject=frappe._('Test Run Log'),
+            message=emailmsg
+        )
+        frappe.db.set_value("Test Suite", suite, "logs", emailmsg)
+        frappe.db.commit()
+
 
     def run_testcase(self, testcase, suite, testcase_srno, total_testcases, suite_srno, total_suites, run_name):
         executionObj = TestCaseExecution()
-        executionObj.run_testcase(testcase['testcase'], suite.get(
+        testcase_msgs = executionObj.run_testcase(testcase['testcase'], suite.get(
             'name'), testcase_srno, total_testcases, suite_srno, total_suites, run_name)
         frappe.db.commit()
+        return testcase_msgs
+
 
     def get_executed_lines(self, app_name, file_name):
         sql_query_result = []

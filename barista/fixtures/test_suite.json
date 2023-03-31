@@ -1,0 +1,269 @@
+[
+ {
+  "app_name": "Migoo CRM",
+  "docstatus": 0,
+  "doctype": "Test Suite",
+  "logs": null,
+  "modified": "2023-03-16 15:44:22.529685",
+  "name": "Insert And Update Inquiry Form",
+  "suite_name": "Insert And Update Inquiry Form",
+  "test_data": [
+   {
+    "parent": "Insert And Update Inquiry Form",
+    "parentfield": "test_data",
+    "parenttype": "Test Suite",
+    "test_data": "TestData-0001",
+    "test_data_description": "Create test data fir Inquiry form"
+   }
+  ],
+  "testcase": [
+   {
+    "parent": "Insert And Update Inquiry Form",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0001",
+    "testcase_name": "Update Status of Inquiry Form"
+   }
+  ]
+ },
+ {
+  "app_name": "Migoo CRM",
+  "docstatus": 0,
+  "doctype": "Test Suite",
+  "logs": null,
+  "modified": "2023-03-16 18:23:49.203503",
+  "name": "Insert and update resource planning",
+  "suite_name": "Insert and update resource planning",
+  "test_data": [
+   {
+    "parent": "Insert and update resource planning",
+    "parentfield": "test_data",
+    "parenttype": "Test Suite",
+    "test_data": "TestData-0002",
+    "test_data_description": "Test Data for Resource Planning"
+   }
+  ],
+  "testcase": [
+   {
+    "parent": "Insert and update resource planning",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0002",
+    "testcase_name": "Create Resource Planning"
+   },
+   {
+    "parent": "Insert and update resource planning",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0003",
+    "testcase_name": "Update Resource Planning"
+   }
+  ]
+ },
+ {
+  "app_name": "Migoo CRM",
+  "docstatus": 0,
+  "doctype": "Test Suite",
+  "logs": null,
+  "modified": "2023-03-18 17:26:53.984614",
+  "name": "Insert update and delete inquiry form TestData-0003",
+  "suite_name": "Insert update and delete inquiry form TestData-0003",
+  "test_data": [
+   {
+    "parent": "Insert update and delete inquiry form TestData-0003",
+    "parentfield": "test_data",
+    "parenttype": "Test Suite",
+    "test_data": "TestData-0003",
+    "test_data_description": "Test Data for inquiry form"
+   }
+  ],
+  "testcase": [
+   {
+    "parent": "Insert update and delete inquiry form TestData-0003",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0004",
+    "testcase_name": "Update TestData-0003"
+   },
+   {
+    "parent": "Insert update and delete inquiry form TestData-0003",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0005",
+    "testcase_name": "Delete TestData-0003"
+   }
+  ]
+ },
+ {
+  "app_name": "Migoo CRM",
+  "docstatus": 0,
+  "doctype": "Test Suite",
+  "logs": null,
+  "modified": "2023-03-23 16:30:26.349042",
+  "name": "Insert,update and delete supplier",
+  "suite_name": "Insert,update and delete supplier",
+  "test_data": [],
+  "testcase": [
+   {
+    "parent": "Insert,update and delete supplier",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0006",
+    "testcase_name": "Create supplier With required field"
+   },
+   {
+    "parent": "Insert,update and delete supplier",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0007",
+    "testcase_name": "Update Supplier with required field"
+   }
+  ]
+ },
+ {
+  "app_name": "Migoo CRM",
+  "docstatus": 0,
+  "doctype": "Test Suite",
+  "logs": null,
+  "modified": "2023-03-28 19:09:32.823548",
+  "name": "All Data CRUD Inquiry form",
+  "suite_name": "All Data CRUD Inquiry form",
+  "test_data": [],
+  "testcase": [
+   {
+    "parent": "All Data CRUD Inquiry form",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0009",
+    "testcase_name": "Insert Inquiry form with all data"
+   },
+   {
+    "parent": "All Data CRUD Inquiry form",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0010",
+    "testcase_name": "Update Inquiry form with all data"
+   },
+   {
+    "parent": "All Data CRUD Inquiry form",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0011",
+    "testcase_name": "Delete Inquiry form with all data"
+   }
+  ]
+ },
+ {
+  "app_name": "Migoo CRM",
+  "docstatus": 0,
+  "doctype": "Test Suite",
+  "logs": null,
+  "modified": "2023-03-28 19:16:36.620709",
+  "name": "All Data CRUD Supplier",
+  "suite_name": "All Data CRUD Supplier",
+  "test_data": [],
+  "testcase": [
+   {
+    "parent": "All Data CRUD Supplier",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0012",
+    "testcase_name": "Insert Supplier with all data"
+   },
+   {
+    "parent": "All Data CRUD Supplier",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0013",
+    "testcase_name": "Update Supplier with all data"
+   },
+   {
+    "parent": "All Data CRUD Supplier",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0014",
+    "testcase_name": "Delete Supplier with all data"
+   }
+  ]
+ },
+ {
+  "app_name": "Migoo CRM",
+  "docstatus": 0,
+  "doctype": "Test Suite",
+  "logs": "<div>************ Running test cases for App - Migoo CRM *************</div><div>************ Suite - Combined Inquiry form and supplier Test *************</div> <br><div>>>(1/1) TestCase-0009:CREATE [1/6] : </div><div>   >>> Test Data created </div><div> >>>> Applying RECORD VALIDATION assertion :9d4b72088e</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br>>>> Test Data updated<br><div>>>(1/1) TestCase-0011:DELETE [3/6] : </div><div>   >>> Error in deleting - Cannot delete or cancel because Inquiry Form 30-03-00011 is linked with Test Run Log TRL-00106 </div><div> >>>> Applying RECORD VALIDATION assertion :4ce4ac4627</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br><br><div>>>(1/1) TestCase-0012:CREATE [4/6] : </div><div>   >>> Test Data created </div><div> >>>> Applying RECORD VALIDATION assertion :f79cccfb7e</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br>>>> Test Data updated<br><div>>>(1/1) TestCase-0014:DELETE [6/6] : </div><div>   >>> Error in deleting - Cannot delete or cancel because Supplier S-00198 is linked with Test Run Log TRL-00107 </div><div> >>>> Applying RECORD VALIDATION assertion :f024b4dc4e</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br><div>************ Execution ends. Verify coverage at - /assets/barista/test-coverage/Pass_85 /index.html</div><div>---  Executed in 4.64seconds ---</div>",
+  "modified": "2023-03-30 18:30:10.804154",
+  "name": "Combined Inquiry form and supplier Test",
+  "suite_name": "Combined Inquiry form and supplier Test",
+  "test_data": [],
+  "testcase": [
+   {
+    "parent": "Combined Inquiry form and supplier Test",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0009",
+    "testcase_name": "Insert Inquiry form with all data"
+   },
+   {
+    "parent": "Combined Inquiry form and supplier Test",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0010",
+    "testcase_name": "Update Inquiry form with all data"
+   },
+   {
+    "parent": "Combined Inquiry form and supplier Test",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0011",
+    "testcase_name": "Delete Inquiry form with all data"
+   },
+   {
+    "parent": "Combined Inquiry form and supplier Test",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0012",
+    "testcase_name": "Insert Supplier with all data"
+   },
+   {
+    "parent": "Combined Inquiry form and supplier Test",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0013",
+    "testcase_name": "Update Supplier with all data"
+   },
+   {
+    "parent": "Combined Inquiry form and supplier Test",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0014",
+    "testcase_name": "Delete Supplier with all data"
+   }
+  ]
+ },
+ {
+  "app_name": "hrms",
+  "docstatus": 0,
+  "doctype": "Test Suite",
+  "logs": "<div>************ Running test cases for App - hrms *************</div><div>************ Suite - Test Employee *************</div> <br><div>>>(1/1) TestCase-0015:CREATE [1/2] : </div><div>   >>> Test Data created </div><div> >>Execution Ended </div><br>>>> Test Data updated<div>************ Execution ends. Verify coverage at - /assets/barista/test-coverage/Pass_82 /index.html</div><div>---  Executed in 3.13seconds ---</div>",
+  "modified": "2023-03-30 18:07:36.414579",
+  "name": "Test Employee",
+  "suite_name": "Test Employee",
+  "test_data": [],
+  "testcase": [
+   {
+    "parent": "Test Employee",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0015",
+    "testcase_name": "Create Employee"
+   },
+   {
+    "parent": "Test Employee",
+    "parentfield": "testcase",
+    "parenttype": "Test Suite",
+    "testcase": "TestCase-0016",
+    "testcase_name": "Update Employee"
+   }
+  ]
+ }
+]

@@ -43,7 +43,7 @@ import time
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 error_log_title_len = 1000
-
+email_template = " "
 
 class TestCaseExecution():
     def run_testcase(self, testcase, test_suite, testcase_srno, total_testcases, suite_srno, total_suites, run_name):
@@ -63,9 +63,11 @@ class TestCaseExecution():
             test_result_doc.test_case_status = "Passed"
             test_result_doc.test_case_execution = "Executed"
             # test result fields ended
+
             print(
                 f"\033[0;36;96m>> ({str(suite_srno)}/{str(total_suites)}) {str(testcase)}:{testcase_doc.testcase_type} [{str(testcase_srno)}/{str(total_testcases)}] :")
             testdata_generator = TestDataGenerator()
+            email_template = """<br><div>>>(""" + str(suite_srno) + """/""" + str(total_suites) + """) """ + str(testcase) + """:""" + testcase_doc.testcase_type + """ [""" + str(testcase_srno) + """/""" + str(total_testcases) + """] : </div>"""
             # Test Data record doc
             if testcase_doc.test_data:
                 testdata_doc = frappe.get_doc(
@@ -100,6 +102,9 @@ class TestCaseExecution():
                             testdata_generator.set_record_name_child_table(
                                 new_record_doc, testdata_doc, True, run_name)
                             print("\033[0;33;93m    >>> Test Data created")
+
+                            email_template = email_template + "<div>   >>> Test Data created </div>"
+
                         except frappe.DuplicateEntryError as e:
                             new_record_doc = resolve_duplicate_entry_error(
                                 e, testdata_doc, run_name)
@@ -111,6 +116,10 @@ class TestCaseExecution():
                             testdata_generator.set_record_name_child_table(
                                 new_record_doc, testdata_doc, True, run_name)
                             print("\033[0;33;93m    >>> Test Data created")
+
+                            email_template = email_template + "<div>   >>> Test Data created </div>"
+                            print(email_template)
+
                     else:
                         frappe.throw(
                             f'Test Data {testcase_doc.test_data} generated None doc. Please check Test Data {testcase_doc.test_data}')
@@ -118,7 +127,9 @@ class TestCaseExecution():
                     frappe.log_error(frappe.get_traceback(
                     ), ('barista-CREATE-'+testcase_doc.name+'-'+str(e))[:error_log_title_len])
                     error_message = str(e)
+                    email_template += """<div> Error occurred --- """ + str(e) + """ </div> """
                     print('\033[0;31;91m   Error occurred ---', str(e))
+
 
             elif (testcase_doc.testcase_type == "UPDATE"):
                 try:
@@ -248,6 +259,9 @@ class TestCaseExecution():
                         if new_record_doc:
                             new_record_doc.save()
                             print("\033[0;33;93m    >>> Test Data updated")
+                            test_data_updated = ">>> Test Data updated"
+                            email_template = email_template + "<div>   >>> Test Data updated </div>"
+                            return test_data_updated
                         else:
                             frappe.throw(
                                 f"Test Data {testdata_doc.name} generated None doc. Please check Test Data {testcase_doc.test_data}")
@@ -267,13 +281,20 @@ class TestCaseExecution():
                 pass
             elif (testcase_doc.testcase_type == "DELETE"):
                 try:
+                    # test_run_log_testrecord = frappe.db.get_value(
+                    #     'Test Run Log', {'test_run_name': run_name}, 'name')
+                    # print(test_run_log_testrecord)
+                    # frappe.db.set_value('Test Run Log', test_run_log_testrecord, 'test_record', ' ')
                     record_doc = frappe.get_doc(
                         testdata_doc.doctype_name, testdata_doc_test_record_name)
                     record_doc.delete()
+                    print("\033[0;33;93m    >>> Test Data Deleted")
+                    email_template = email_template + "<div>   >>> Test Data Deleted </div>"
                 except Exception as e:
                     frappe.log_error(frappe.get_traceback(
                     ), ('barista-'+testcase_doc.name+'-DELETE-'+str(e))[:error_log_title_len])
                     error_message = str(e)
+                    email_template = email_template + "<div>   >>> Error in deleting - " + str(e) + "</div>"
                     print(
                         "\033[0;31;91m    >>> Error in deleting - "+str(e))
             elif (testcase_doc.testcase_type == "WORKFLOW"):
@@ -292,11 +313,13 @@ class TestCaseExecution():
                         create_test_run_log(
                             run_name, testdata_doc.name, new_record_doc.name)
                     apply_workflow(new_record_doc, testcase_doc.workflow_state)
+                    email_template = email_template + "<div>   >>> Workflow Applied"
                     print("\033[0;32;92m    >>> Workflow Applied")
                 except Exception as e:
                     frappe.log_error(frappe.get_traceback(), (f"""barista-WORKFLOW-{testcase_doc.name}-{str(
                         e)}-DocType-[{testdata_doc.doctype_name}]-WorkflowState-[{current_workflow_state}]-Action-[{testcase_doc.workflow_state}]""")[:error_log_title_len])
                     error_message = str(e)
+                    email_template = email_template + "<div>   >>> Error in applying Workflow - " + str(e) + "</div>"
                     print(
                         "\033[0;31;91m    >>> Error in applying Workflow - "+str(e))
 
@@ -326,6 +349,7 @@ class TestCaseExecution():
                                 kwargs[parameter] = test_record_doc.get(
                                     param.field)
 
+                    email_template = email_template + "<div>    >>> Executing Function --" + testcase_doc.function_name + "</div>"
                     print("\033[0;33;93m   >>> Executing Function --",
                           testcase_doc.function_name)
                     if testcase_doc.json_parameter and testcase_doc.json_parameter.strip() != '':
@@ -343,6 +367,7 @@ class TestCaseExecution():
                             resolved_jinja = render_template(
                                 testcase_doc.json_parameter, context_dict)
                         except Exception as e:
+                            email_template = email_template + "<div>    >>>> Error in Json Parameter: " + str(e) + "</div>"
                             print(
                                 "\033[0;31;91m       >>>> Error in Json Parameter\n      ", str(e))
 
@@ -361,11 +386,13 @@ class TestCaseExecution():
                             testcase_doc.testcase_doctype, test_data_record_name)
                         function_result = test_record_doc.run_method(
                             method, **kwargs)
+                    email_template = email_template + "<div>   >>> Function Executed </div>"
                     print("\033[0;32;92m     >>> Function Executed")
                 except Exception as e:
                     frappe.log_error(frappe.get_traceback(
                     ), ('barista-FUNCTION-'+testcase_doc.name+'-'+str(e))[:error_log_title_len])
                     error_message = str(e)
+                    email_template = email_template + "<div>>>>> Execution of function failed - Error occurred : " + str(e) + "</div>"
                     print(
                         "\033[0;31;91m       >>>> Execution of function failed\n       Error occurred :", str(e))
                 
@@ -375,13 +402,15 @@ class TestCaseExecution():
                 "Assertion", filters={'parent': testcase})
 
             if len(assertions) == 0:
+                email_template = email_template + "<div>Assertions are not present in the TestCase. Please add atleast one assertion. </div>"
                 test_result_doc.execution_result = 'Assertions are not present in the TestCase. Please add atleast one assertion.'
                 test_result_doc.test_case_status = "Failed"
                 test_result_doc.save()
 
             for assertion in assertions:
-                self.process_assertion(
+                assertion_logs = self.process_assertion(
                     assertion, testcase_doc, run_name, error_message, function_result, test_result_doc)
+            email_template = email_template + assertion_logs
 
         except Exception as e:
             frappe.log_error(frappe.get_traceback(
@@ -391,13 +420,17 @@ class TestCaseExecution():
             test_result_doc.test_case_status = "Failed"
             test_result_doc.save()
         finally:
+            email_template = email_template + "<div> >>Execution Ended </div><br>"
             print("\033[0;36;96m>> " + "Execution Ended \n\n")
             test_result_doc.save()
+
+        return email_template
 
     def process_assertion(self, assertion, testcase_doc, run_name, error_message, function_result, test_result_doc):
         assertion_doc = frappe.get_doc("Assertion", assertion['name'])
         assertion_doc.assertion_type = assertion_doc.assertion_type.upper()
 
+        assertion_msgs = ""
         value_type = 'Fixed Value'
         record_count = 1
 
@@ -410,6 +443,7 @@ class TestCaseExecution():
         if not assertion_doc.reference_field:
             assertion_doc.reference_field = 'name'
 
+        assertion_msgs = "<div> >>>> Applying " + assertion_doc.assertion_type + " assertion :" + str(assertion['name']) + "</div>"
         print(
             f"\033[0;37;97m       >>>> Applying {assertion_doc.assertion_type} assertion :{str(assertion['name'])}")
         assertion_result = frappe.new_doc("Assertion Result")
@@ -428,13 +462,16 @@ class TestCaseExecution():
                 assertion_result.assertion_result = "Actual number of record(s) found - " + str(len(validation_doctype)) + \
                     ". For Doctype - " + assertion_doc.doctype_name + " . Name - " + assertion_doc.reference_field +\
                     ". Value - " + str(testdata_doc_test_record_name)
+                assertion_msgs = assertion_msgs + "<div>" + assertion_result.assertion_result + "</div>"
 
                 if(error_message):
                     # there was some error as well.
                     assertion_result.assertion_result = assertion_result.assertion_result + "\n\nError Encountered : " \
                         + error_message
+                    assertion_msgs = assertion_msgs + "<div>" + assertion_result.assertion_result + "Error Encountered : " + error_message + "</div>"
 
                 test_result_doc.test_case_status = "Failed"
+                assertion_msgs = assertion_msgs + "<div> >>>> Assertion failed </div>"
                 print("\033[0;31;91m       >>>> Assertion failed")
 
             else:
@@ -451,12 +488,14 @@ class TestCaseExecution():
                         assertion_result.assertion_result = "Value matched - " + \
                             str(validation_doctype_doc.get(
                                 assertion_doc.docfield_name))
+                        assertion_msgs = assertion_msgs + "<div> >>>> Assertion Passed </div>"
                         print(
                             "\033[0;32;92m       >>>> Assertion Passed")
                     elif value_type == 'Code' and eval(assertion_doc.code):
                         assertion_result.assertion_result = "Value matched - " + \
                             str(validation_doctype_doc.get(
                                 assertion_doc.docfield_name))
+                        assertion_msgs = assertion_msgs + "<div> >>>> Assertion Passed </div>"
                         print(
                             "\033[0;32;92m       >>>> Assertion Passed")
                     else:
@@ -469,9 +508,11 @@ class TestCaseExecution():
 
                         if(error_message):
                             # there was some error as well.
+                            assertion_msgs = assertion_msgs + "<div>" + assertion_result.assertion_result + " Error Encountered :" + error_message + "</div>"
                             assertion_result.assertion_result = f"{assertion_result.assertion_result} \n\nError Encountered :{error_message}"
 
                         test_result_doc.test_case_status = "Failed"
+                        assertion_msgs = assertion_msgs + "<div> >>>> Assertion Failed </div>"
                         print(
                             "\033[0;31;91m       >>>> Assertion Failed")
                 except AttributeError as e:
@@ -502,6 +543,7 @@ class TestCaseExecution():
                 assertion_result.assertion_status = "Passed"
                 assertion_result.assertion_result = "Record found - " + \
                     ','.join(records)
+                assertion_msgs = assertion_msgs + "<div> >>>> Assertion Passed </div>"
                 print("\033[0;32;92m       >>>> Assertion Passed")
             else:
                 assertion_result.assertion_status = "Failed"
@@ -510,10 +552,12 @@ class TestCaseExecution():
                     ". Value - " + \
                     (testdata_doc_test_record_name or '')
                 test_result_doc.test_case_status = "Failed"
+                assertion_msgs = assertion_msgs + "<div> >>>> Assertion Failed </div>"
                 print("\033[0;31;91m       >>>> Assertion Failed")
 
                 if(error_message):
                     # there was some error as well.
+                    assertion_msgs = assertion_msgs + "<div> " + assertion_result.assertion_result + "Error Encountered : " + error_message + "</div>"
                     assertion_result.assertion_result = assertion_result.assertion_result + "\n\nError Encountered : " \
                         + error_message
 
@@ -522,6 +566,7 @@ class TestCaseExecution():
                 assertion_result.assertion_status = "Failed"
                 assertion_result.assertion_result = f"""Actual number of record(s) found - {str(len(validation_doctype))}. For Doctype - {assertion_doc.doctype_name}. Name - {assertion_doc.reference_field}. Value - {testdata_doc_test_record_name}"""
                 test_result_doc.test_case_status = "Failed"
+                assertion_msgs = assertion_msgs + "<div> >>>> Assertion Failed </div>"
                 print("\033[0;31;91m       >>>> Assertion Failed")
                 if(error_message):
                     # there was some error as well.
@@ -533,6 +578,7 @@ class TestCaseExecution():
                 if (assertion_doc.workflow_state == validation_doctype_doc.workflow_state):
                     assertion_result.assertion_result = "Workflow matched - " + \
                         assertion_doc.workflow_state
+                    assertion_msgs = assertion_msgs + "<div> >>>> Assertion Passed </div>"
                     print("\033[0;32;92m       >>>> Assertion Passed")
                 else:
                     assertion_result.assertion_status = "Failed"
@@ -544,24 +590,28 @@ class TestCaseExecution():
                         assertion_result.assertion_result = assertion_result.assertion_result + "\n\nError Encountered : " \
                             + error_message
                     test_result_doc.test_case_status = "Failed"
+                    assertion_msgs = assertion_msgs + "<div> >>>> Assertion Failed </div>"
                     print("\033[0;31;91m       >>>> Assertion Failed")
 
         elif (assertion_doc.assertion_type == "ERROR"):
             if (error_message):
                 if (assertion_doc.error_message in error_message):
                     assertion_result.assertion_result = "Error received as expected - " + error_message
+                    assertion_msgs = assertion_msgs + "<div> >>>> Assertion Passed </div>"
                     print("\033[0;32;92m       >>>> Assertion Passed")
                 else:
                     assertion_result.assertion_result = "Error received - " + error_message + \
                         "\n\nExpected error - " + assertion_doc.error_message
                     assertion_result.assertion_status = "Failed"
                     test_result_doc.test_case_status = "Failed"
+                    assertion_msgs = assertion_msgs + "<div> >>>> Assertion Failed </div>"
                     print("\033[0;31;91m       >>>> Assertion Failed")
             else:
                 assertion_result.assertion_result = "No Error received however following error was expected - " + \
                     assertion_doc.error_message
                 assertion_result.assertion_status = "Failed"
                 test_result_doc.test_case_status = "Failed"
+                assertion_msgs = assertion_msgs + "<div> >>>> Assertion Failed </div>"
                 print("\033[0;31;91m       >>>> Assertion Failed")
 
         elif (assertion_doc.assertion_type == "RESPONSE"):
@@ -586,6 +636,7 @@ class TestCaseExecution():
                         assertion_result.assertion_status = "Passed"
                         assertion_result.assertion_result = response_regex + \
                             " -> is present in the response received from the function"
+                        assertion_msgs = assertion_msgs + "<div> >>>> Assertion Passed </div>"
                         print(
                             "\033[0;32;92m       >>>> Assertion Passed")
                     elif test_result_doc.execution_result != '':
@@ -596,21 +647,25 @@ class TestCaseExecution():
                         else:
                             assertion_result.assertion_result = response_regex + \
                                 "-> is not found in the response received from the function"
+                        assertion_msgs = assertion_msgs + "<div> >>>> Assertion Failed </div>"
                         print(
                             "\033[0;31;91m       >>>> Assertion Failed")
                     elif test_result_doc.execution_result == '' and response_regex == '':
                         assertion_result.assertion_status = "Passed"
+                        assertion_msgs = assertion_msgs + "<div> >>>> Assertion Passed </div>"
                         print(
                             "\033[0;32;92m       >>>> Assertion Passed")
                 elif value_type == 'Code':
                     if eval(assertion_doc.code):
                         assertion_result.assertion_status = "Passed"
+                        assertion_msgs = assertion_msgs + "<div> >>>> Assertion Passed </div>"
                         print(
                             "\033[0;32;92m       >>>> Assertion Passed")
                     else:
                         assertion_result.assertion_status = "Failed"
                         test_result_doc.test_case_status = "Failed"
                         assertion_result.assertion_result = 'Written Code condition was False'
+                        assertion_msgs = assertion_msgs + "<div> >>>> Assertion Failed </div>"
                         print(
                             "\033[0;31;91m       >>>> Assertion Failed")
 
@@ -618,6 +673,7 @@ class TestCaseExecution():
         test_result_doc.get("assertion_results").append(
             assertion_result)
         test_result_doc.save()
+        return assertion_msgs
 
 
 def get_execution_time(start_time):
