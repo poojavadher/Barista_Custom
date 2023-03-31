@@ -130,6 +130,14 @@ fixtures = [
     ]
     ]
     ]},
+    {"dt": "Custom Field", "filters": [
+    [
+        "dt", "in", [
+        "Test Suite"
+    ]
+    ]
+    ]},
+
     # "Testcase Item",
     # "Testdata Item",
     # "Assertion",
