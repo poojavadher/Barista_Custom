@@ -29,8 +29,8 @@ class RunTest():
     def run_complete_suite(self, app_name, suites=[], run_name=None):
         start_time = time.time()
         alter_error_log()
-        site_name = str(frappe.local.site)
         email_body = " "
+        site_name = "<div>URL: " + str(frappe.local.site) + "</div>"
         print("\033[0;33;93m************ Running all test cases for App - " +
               app_name + " *************\n\n")
         email_body1 = "<div>************ Running test cases for App - " + app_name + " *************</div>"
@@ -84,7 +84,7 @@ class RunTest():
                 print(
                     "\033[0;31;91m The error encountered is - " + str(e) + "\n")
                 print("\033[0;31;91m*************ERROR****************")
-                msg = """<div> Error occurred which will cause false test case result in the suite -""" + str(suite.get('name')) + """</div><div> *************ERROR****************</div><div> The error encountered is -""" + str(e) + """</div>"""
+                msg = """ <div> """+site_name+"""</div><div> Error occurred which will cause false test case result in the suite -""" + str(suite.get('name')) + """</div><div> *************ERROR****************</div><div> The error encountered is -""" + str(e) + """</div>"""
                 frappe.sendmail(
                     recipients="pooja@sanskartechnolab.com",
                     subject=frappe._('Test Run Log'),
@@ -109,10 +109,10 @@ class RunTest():
             end_time = round(end_time/60, 2)
             time_uom = 'minutes'
         print("--- Executed in %s %s ---" % (end_time, time_uom))
-        emailmsg = email_body1 + email_body + "<div>************ Execution ends. Verify coverage at - /assets/barista/test-coverage/" + run_name_path + " /index.html</div>" + "<div>---  Executed in " + str(end_time) + str(time_uom) + " ---</div>"
+        emailmsg = """<div>""" + site_name + """</div>""" + email_body1 + email_body + "<div>************ Execution ends. Verify coverage at - /assets/barista/test-coverage/" + run_name_path + " /index.html</div>" + "<div>---  Executed in " + str(end_time) + str(time_uom) + " ---</div>"
         print(emailmsg)
         frappe.sendmail(
-            recipients="pooja@sanskartechnolab.com",
+            recipients="pooja@sanskartechnolab.com,foram@sanskartechnolab.com",
             subject=frappe._('Test Run Log'),
             message=emailmsg
         )

@@ -1,10 +1,10 @@
 [
  {
-  "app_name": "Migoo CRM",
+  "app_name": "",
   "docstatus": 0,
   "doctype": "Test Suite",
   "logs": null,
-  "modified": "2023-03-16 15:44:22.529685",
+  "modified": "2023-04-03 18:33:07.300494",
   "name": "Insert And Update Inquiry Form",
   "suite_name": "Insert And Update Inquiry Form",
   "test_data": [
@@ -27,11 +27,11 @@
   ]
  },
  {
-  "app_name": "Migoo CRM",
+  "app_name": "",
   "docstatus": 0,
   "doctype": "Test Suite",
   "logs": null,
-  "modified": "2023-03-16 18:23:49.203503",
+  "modified": "2023-04-03 18:33:01.480738",
   "name": "Insert and update resource planning",
   "suite_name": "Insert and update resource planning",
   "test_data": [
@@ -190,8 +190,8 @@
   "app_name": "Migoo CRM",
   "docstatus": 0,
   "doctype": "Test Suite",
-  "logs": "<div>************ Running test cases for App - Migoo CRM *************</div><div>************ Suite - Combined Inquiry form and supplier Test *************</div> <br><div>>>(1/1) TestCase-0009:CREATE [1/6] : </div><div>   >>> Test Data created </div><div> >>>> Applying RECORD VALIDATION assertion :9d4b72088e</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br>>>> Test Data updated<br><div>>>(1/1) TestCase-0011:DELETE [3/6] : </div><div>   >>> Error in deleting - Cannot delete or cancel because Inquiry Form 30-03-00011 is linked with Test Run Log TRL-00106 </div><div> >>>> Applying RECORD VALIDATION assertion :4ce4ac4627</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br><br><div>>>(1/1) TestCase-0012:CREATE [4/6] : </div><div>   >>> Test Data created </div><div> >>>> Applying RECORD VALIDATION assertion :f79cccfb7e</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br>>>> Test Data updated<br><div>>>(1/1) TestCase-0014:DELETE [6/6] : </div><div>   >>> Error in deleting - Cannot delete or cancel because Supplier S-00198 is linked with Test Run Log TRL-00107 </div><div> >>>> Applying RECORD VALIDATION assertion :f024b4dc4e</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br><div>************ Execution ends. Verify coverage at - /assets/barista/test-coverage/Pass_85 /index.html</div><div>---  Executed in 4.64seconds ---</div>",
-  "modified": "2023-03-30 18:30:10.804154",
+  "logs": "<div><div>URL: migoo.in</div></div><div>************ Running test cases for App - Migoo CRM *************</div><div>************ Suite - Combined Inquiry form and supplier Test *************</div> <br><div>>>(1/1) TestCase-0009:CREATE [1/6] : </div><div>   >>> Test Data created </div><div> >>>> Applying RECORD VALIDATION assertion :c0c085aed0</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br><br><div>>>(1/1) TestCase-0010:UPDATE [2/6] : </div><div>   >>> Test Data updated </div><div> >>>> Applying RECORD VALIDATION assertion :1f1d5b4484</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br><br><div>>>(1/1) TestCase-0011:DELETE [3/6] : </div><div>   >>> Error in deleting - Cannot delete or cancel because Inquiry Form 03-04-00004 is linked with Test Run Log TRL-00150 </div><div> >>>> Applying RECORD VALIDATION assertion :d6bb199624</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br><br><div>>>(1/1) TestCase-0012:CREATE [4/6] : </div><div>   >>> Test Data created </div><div> >>>> Applying RECORD VALIDATION assertion :373a0db872</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br><br><div>>>(1/1) TestCase-0013:UPDATE [5/6] : </div><div>   >>> Test Data updated </div><div> >>>> Applying RECORD VALIDATION assertion :4cf264f1bf</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br><br><div>>>(1/1) TestCase-0014:DELETE [6/6] : </div><div>   >>> Error in deleting - Cannot delete or cancel because Supplier S-00204 is linked with Test Run Log TRL-00151 </div><div> >>>> Applying RECORD VALIDATION assertion :409fe0a2aa</div><div> >>>> Assertion Passed </div><div> >>Execution Ended </div><br><div>************ Execution ends. Verify coverage at - /assets/barista/test-coverage/Pass_123 /index.html</div><div>---  Executed in 4.78seconds ---</div>",
+  "modified": "2023-04-03 18:29:22.362394",
   "name": "Combined Inquiry form and supplier Test",
   "suite_name": "Combined Inquiry form and supplier Test",
   "test_data": [],
@@ -237,32 +237,6 @@
     "parenttype": "Test Suite",
     "testcase": "TestCase-0014",
     "testcase_name": "Delete Supplier with all data"
-   }
-  ]
- },
- {
-  "app_name": "hrms",
-  "docstatus": 0,
-  "doctype": "Test Suite",
-  "logs": "<div>************ Running test cases for App - hrms *************</div><div>************ Suite - Test Employee *************</div> <br><div>>>(1/1) TestCase-0015:CREATE [1/2] : </div><div>   >>> Test Data created </div><div> >>Execution Ended </div><br>>>> Test Data updated<div>************ Execution ends. Verify coverage at - /assets/barista/test-coverage/Pass_82 /index.html</div><div>---  Executed in 3.13seconds ---</div>",
-  "modified": "2023-03-30 18:07:36.414579",
-  "name": "Test Employee",
-  "suite_name": "Test Employee",
-  "test_data": [],
-  "testcase": [
-   {
-    "parent": "Test Employee",
-    "parentfield": "testcase",
-    "parenttype": "Test Suite",
-    "testcase": "TestCase-0015",
-    "testcase_name": "Create Employee"
-   },
-   {
-    "parent": "Test Employee",
-    "parentfield": "testcase",
-    "parenttype": "Test Suite",
-    "testcase": "TestCase-0016",
-    "testcase_name": "Update Employee"
    }
   ]
  }
