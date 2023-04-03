@@ -43,7 +43,7 @@ import time
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 error_log_title_len = 1000
-email_template = " "
+
 
 class TestCaseExecution():
     def run_testcase(self, testcase, test_suite, testcase_srno, total_testcases, suite_srno, total_suites, run_name):
@@ -64,10 +64,11 @@ class TestCaseExecution():
             test_result_doc.test_case_execution = "Executed"
             # test result fields ended
 
-            print(
-                f"\033[0;36;96m>> ({str(suite_srno)}/{str(total_suites)}) {str(testcase)}:{testcase_doc.testcase_type} [{str(testcase_srno)}/{str(total_testcases)}] :")
+            email_template = " "
+
+            print(f"\033[0;36;96m>> ({str(suite_srno)}/{str(total_suites)}) {str(testcase)}:{testcase_doc.testcase_type} [{str(testcase_srno)}/{str(total_testcases)}] :")
+            email_template = """<br><div>>>(""" + str(suite_srno) + """/""" + str(total_suites) + """) """ + str(testcase) + """:""" + str(testcase_doc.testcase_type) + """ [""" + str(testcase_srno) + """/""" + str(total_testcases) + """] : </div>"""
             testdata_generator = TestDataGenerator()
-            email_template = """<br><div>>>(""" + str(suite_srno) + """/""" + str(total_suites) + """) """ + str(testcase) + """:""" + testcase_doc.testcase_type + """ [""" + str(testcase_srno) + """/""" + str(total_testcases) + """] : </div>"""
             # Test Data record doc
             if testcase_doc.test_data:
                 testdata_doc = frappe.get_doc(
@@ -90,6 +91,7 @@ class TestCaseExecution():
                 new_record_doc = testdata_generator.create_testdata(
                     testcase_doc.test_data, run_name)
                 error_message = None
+
             if (testcase_doc.testcase_type == "CREATE"):
                 try:
                     if new_record_doc:
@@ -118,7 +120,6 @@ class TestCaseExecution():
                             print("\033[0;33;93m    >>> Test Data created")
 
                             email_template = email_template + "<div>   >>> Test Data created </div>"
-                            print(email_template)
 
                     else:
                         frappe.throw(
@@ -129,7 +130,6 @@ class TestCaseExecution():
                     error_message = str(e)
                     email_template += """<div> Error occurred --- """ + str(e) + """ </div> """
                     print('\033[0;31;91m   Error occurred ---', str(e))
-
 
             elif (testcase_doc.testcase_type == "UPDATE"):
                 try:
@@ -169,7 +169,6 @@ class TestCaseExecution():
                         testcase_doc.testcase_doctype).fields
 
                     for update_field in update_fields:
-
                         update_field_doc = frappe.get_doc(
                             "Testdatafield", update_field['name'])
 
@@ -261,7 +260,6 @@ class TestCaseExecution():
                             print("\033[0;33;93m    >>> Test Data updated")
                             test_data_updated = ">>> Test Data updated"
                             email_template = email_template + "<div>   >>> Test Data updated </div>"
-                            return test_data_updated
                         else:
                             frappe.throw(
                                 f"Test Data {testdata_doc.name} generated None doc. Please check Test Data {testcase_doc.test_data}")
@@ -273,6 +271,7 @@ class TestCaseExecution():
                     frappe.log_error(frappe.get_traceback(
                     ), ('barista-UPDATE-'+testcase_doc.name+'-'+str(e))[:error_log_title_len])
                     error_message = str(e)
+                    email_template = email_template + "<div>Error occurred -- "+ str(e) +"</div>"
                     print('\033[0;31;91m   Error occurred ---', str(e))
 
                 testdata_generator.set_record_name_child_table(
