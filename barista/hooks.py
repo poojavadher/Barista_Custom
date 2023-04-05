@@ -120,23 +120,9 @@ app_license = "MIT"
 # 	"frappe.desk.doctype.event.event.get_events": "barista.event.get_events"
 # }
 fixtures = [
-    "Test Data",
-    "Test Case",
-    "Test Suite",
-    # {"dt": "Workspace", "filters": [
-    # [
-    #     "name", "in", [
-    #     "Barista-Administrator"
-    # ]
-    # ]
-    # ]},
-    # {"dt": "Custom Field", "filters": [
-    # [
-    #     "dt", "in", [
-    #     "Test Suite"
-    # ]
-    # ]
-    # ]},
+    # "Test Data",
+    # "Test Case",
+    # "Test Suite",
     # "Testcase Item",
     # "Testdata Item",
     # "Assertion",

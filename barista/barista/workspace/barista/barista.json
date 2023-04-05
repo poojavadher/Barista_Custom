@@ -1,0 +1,142 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"hKBv5_RDJ1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Barista</span>\",\"col\":12}},{\"id\":\"QLaRtwHbaJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Test Data\",\"col\":3}},{\"id\":\"3lxi3sqlKm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Test Case\",\"col\":3}},{\"id\":\"mZi3LRV5nK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Test Suite\",\"col\":3}},{\"id\":\"r9IqFnP-oA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Test result\",\"col\":3}},{\"id\":\"16vjWElGQG\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"id\":\"4LvtxB3My0\",\"type\":\"card\",\"data\":{\"card_name\":\"Pages\",\"col\":4}}]",
+ "creation": "2023-03-16 15:22:32.963512",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "color-review-points",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Barista",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Pages",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Test Coverage",
+   "link_count": 0,
+   "link_to": "test-coverage",
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 6,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Test Execution Statistics",
+   "link_count": 0,
+   "link_to": "Test Execution Statistics",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Test Run Log Test Data Statistics",
+   "link_count": 0,
+   "link_to": "Test Run Log Test Data Statistics",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Error Statistics",
+   "link_count": 0,
+   "link_to": "Error Statistics",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Assertion Type Wise Test Cases",
+   "link_count": 0,
+   "link_to": "Assertion Type Wise Test Cases",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Types of Test Case on Doctype",
+   "link_count": 0,
+   "link_to": "Types of Test Case on Doctype",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Assertion Effectiveness",
+   "link_count": 0,
+   "link_to": "Assertion Effectiveness",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2023-04-05 18:10:45.628452",
+ "modified_by": "Administrator",
+ "module": "Barista",
+ "name": "Barista",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 37.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Test Data",
+   "link_to": "Test Data",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Test result",
+   "link_to": "Test Result",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Test Suite",
+   "link_to": "Test Suite",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Test Case",
+   "link_to": "Test Case",
+   "type": "DocType"
+  }
+ ],
+ "title": "Barista"
+}
