@@ -56,8 +56,15 @@ class RunTest():
         objCoverage.start()
         total_suites = len(suites)
         suite_srno = 0
+        recepients = []
         for suite in suites:
             suite_srno += 1
+            values = {'parent': suite.get('name')}
+            receipients_ids = frappe.db.sql("select user from `tabNotify to` where parent = %(parent)s ORDER BY `idx`", values=values, as_list=1)
+            print(receipients_ids)
+            for id in receipients_ids:
+                if id[0] not in recepients:
+                    recepients.append(id[0])
             print("\033[0;32;92m************ Suite - " +
                   suite.get('name') + " *************\n\n")
             email_body1 += "<div>************ Suite - " + suite.get('name') + " *************</div>"
@@ -85,11 +92,11 @@ class RunTest():
                     "\033[0;31;91m The error encountered is - " + str(e) + "\n")
                 print("\033[0;31;91m*************ERROR****************")
                 msg = """ <div> """+site_name+"""</div><div> Error occurred which will cause false test case result in the suite -""" + str(suite.get('name')) + """</div><div> *************ERROR****************</div><div> The error encountered is -""" + str(e) + """</div>"""
-                frappe.sendmail(
-                    recipients="pooja@sanskartechnolab.com",
-                    subject=frappe._('Test Run Log'),
-                    message=msg
-                )
+                # frappe.sendmail(
+                #     recipients="pooja@sanskartechnolab.com",
+                #     subject=frappe._('Test Run Log'),
+                #     message=msg
+                # )
                 frappe.db.set_value("Test Suite", suite, "logs", msg)
                 frappe.db.commit()
 
@@ -110,9 +117,10 @@ class RunTest():
             time_uom = 'minutes'
         print("--- Executed in %s %s ---" % (end_time, time_uom))
         emailmsg = """<div>""" + site_name + """</div>""" + email_body1 + email_body + "<div>************ Execution ends. Verify coverage at - /assets/barista/test-coverage/" + run_name_path + " /index.html</div>" + "<div>---  Executed in " + str(end_time) + str(time_uom) + " ---</div>"
-        print(emailmsg)
+        # print(emailmsg)
+        print(recepients)
         frappe.sendmail(
-            recipients="pooja@sanskartechnolab.com,foram@sanskartechnolab.com",
+            recipients=recepients,
             subject=frappe._('Test Run Log'),
             message=emailmsg
         )
